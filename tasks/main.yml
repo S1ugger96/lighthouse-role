@@ -1,0 +1,20 @@
+---
+- name: Install git package
+  ansible.builtin.package:
+    name: git
+    state: present
+
+- name: Create directory for LightHouse
+  ansible.builtin.file:
+    path: "{{ lighthouse_install_dir }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Clone LightHouse repository
+  ansible.builtin.git:
+    repo: "{{ lighthouse_repo_url }}"
+    dest: "{{ lighthouse_install_dir }}"
+    version: "{{ lighthouse_version }}"
+    force: true
